@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== 主题 CSS 变量（明暗双主题） ===== */
+:root {
+  --c-bg: #f7f8fa;
+  --c-surface: #ffffff;
+  --c-border: #e5e7eb;
+  --c-ink: #0f172a;
+  --c-muted: #64748b;
+  --c-accent: #2563eb;
+  --c-accent-soft: rgba(37, 99, 235, 0.08);
+  --c-accent-contrast: #ffffff;
+  color-scheme: light;
+}
+
+.dark {
+  --c-bg: #0f172a;
+  --c-surface: #1e293b;
+  --c-border: #334155;
+  --c-ink: #e2e8f0;
+  --c-muted: #94a3b8;
+  --c-accent: #60a5fa;
+  --c-accent-soft: rgba(96, 165, 250, 0.12);
+  --c-accent-contrast: #0f172a;
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  @apply bg-bg text-ink font-sans antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 锚点定位时给固定导航留出空间 */
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+/* ===== 滚动入场 ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: opacity, transform;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== 尊重减少动效偏好 ===== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+/* 细滚动条 */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--c-border);
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--c-muted);
+}
+
+/* ===== 复用组件类 ===== */
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-accent-contrast shadow-sm transition-all hover:opacity-90 active:scale-[0.98];
+  }
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-lg border border-border bg-surface px-6 py-3 text-sm font-semibold text-ink transition-all hover:border-accent hover:text-accent active:scale-[0.98];
+  }
+  .tag {
+    @apply inline-flex items-center rounded-md bg-accent-soft px-2.5 py-1 text-xs font-medium text-accent;
+  }
+  .card {
+    @apply rounded-2xl border border-border bg-surface;
+  }
+}
