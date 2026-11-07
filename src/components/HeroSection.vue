@@ -1,12 +1,39 @@
 <script setup>
+import { onMounted, ref } from 'vue'
+import HeroParticles from './HeroParticles.vue'
 import { resume } from '../data/resume.js'
 
 const b = resume.basics
+const sectionRef = ref(null)
+const tiltStyle = ref({})
+let finePointer = false
+
+// 克制的 3D 倾斜：仅在精确指针设备（鼠标/触控板）且未开启“减少动态”时启用
+function onMove(e) {
+  if (!finePointer || !sectionRef.value) return
+  const rect = sectionRef.value.getBoundingClientRect()
+  const px = (e.clientX - rect.left) / rect.width - 0.5
+  const py = (e.clientY - rect.top) / rect.height - 0.5
+  tiltStyle.value = {
+    transform: `perspective(1000px) rotateX(${(-py * 3).toFixed(2)}deg) rotateY(${(px * 4).toFixed(2)}deg)`
+  }
+}
+
+function onLeave() {
+  tiltStyle.value = { transform: 'perspective(1000px) rotateX(0deg) rotateY(0deg)' }
+}
+
+onMounted(() => {
+  finePointer =
+    window.matchMedia('(pointer: fine)').matches &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches
+})
 </script>
 
 <template>
-  <section id="hero" class="flex min-h-screen items-center pt-16">
-    <div class="mx-auto w-full max-w-5xl px-4 py-16 sm:px-6">
+  <section id="hero" ref="sectionRef" class="relative flex min-h-screen items-center overflow-hidden pt-16" @mousemove="onMove" @mouseleave="onLeave">
+    <HeroParticles />
+    <div class="relative z-10 mx-auto w-full max-w-5xl px-4 py-16 transition-transform duration-300 ease-out sm:px-6" :style="tiltStyle">
       <div class="reveal">
         <p class="inline-flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1 text-sm text-muted">
           <span class="h-2 w-2 rounded-full bg-accent"></span>
