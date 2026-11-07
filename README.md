@@ -14,6 +14,8 @@
 ## 网站预览
 
 <!-- 部署后可将实际截图放到 docs/screenshot.png，并取消下方注释替换 -->
+<img width="2537" height="1403" alt="image" src="https://github.com/user-attachments/assets/22caeac4-4dae-49d4-afe3-6cc6078b4338" />
+
 <!-- ![网站预览](docs/screenshot.png) -->
 
 页面结构（从上到下）：
