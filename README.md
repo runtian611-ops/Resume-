@@ -84,7 +84,7 @@ git subtree push --prefix dist origin gh-pages
 
 ```
 Resume-/
-├── docs/                  # 需求、选型、架构、UI 调研、部署、开发记录
+├── docs/                  # 需求、选型、架构、UI 调研、部署、开发记录、技术栈详解、目录说明、Git 指南
 ├── public/
 │   ├── favicon.svg
 │   └── resume/Resume-NiuRuntian.pdf   # ATS 友好简历 PDF
